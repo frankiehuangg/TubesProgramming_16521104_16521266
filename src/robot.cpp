@@ -57,8 +57,6 @@ void Character::attackEnemy(Character* enemy)
     {
         cout << "Attack missed!" << endl;
     }
-
-    cout << enemy->healthPoint << endl;
 }
 
 // moveCharacter(direction) is a void object function, change the object position based on the user input
@@ -89,6 +87,7 @@ bool isValidMovement(Coordinate c1, Coordinate c2, Coordinate d)
     return false;
 }
 
+// print the distance of robot and BMK
 void printDistance(Coordinate c1, Coordinate c2)
 {
     cout << "Dist\t: (" << abs(c1.x-c2.x) << ',' << abs(c1.y-c2.y) << ')' << endl;
@@ -112,6 +111,7 @@ void printMap(int sizeX, int sizeY, Coordinate c1, Coordinate c2)
     }
 }
 
+// generate random number for bot spawn point
 Coordinate randomNumber(int sizeX, int sizeY, Coordinate c)
 {
     srand((unsigned) time(NULL));
@@ -123,29 +123,47 @@ Coordinate randomNumber(int sizeX, int sizeY, Coordinate c)
     return {x,y};
 }
 
+// BunshinMechaKurama AI
 void botAction(Character* c1, Character* c2)
 {
-    // BunshinMechaKurama AI
-    if (c1->enemyDistance(c2->position).x + c1->enemyDistance(c2->position).y <= c1->attackRange)
+    cout << c1->enemyDistance(c2->position).x << ' ' << c1->enemyDistance(c2->position).y << endl;
+    if (c1->enemyDistance(c2->position).x + c1->enemyDistance(c2->position).y <= c1->attackRange) // Attack if in range
     {
         c1->attackEnemy(c2);
         cout << "BunshinMechaKurama has dealt " << c1->attackDamage << " damage!" << endl;
     }
-    else
+    else // otherwise move
     {
-        if (c1->enemyDistance(c2->position).x <= c1->enemyDistance(c2->position).y)
+        if (c1->position.x == c2->position.x) // move vertically if on the same x
         {
-            if (c1->position.x > c2->position.x)
+            if (c1->position.y > c2->position.y) // go down if higher
                 c1->moveCharacter({0,-1});
-            else
+            else // go up if lower
                 c1->moveCharacter({0,1});
         }
-        else
+        else if (c1->position.y == c2->position.y) // move horizontally if on the same y
         {
-            if (c1->position.y > c2->position.y)
+            if (c1->position.x > c2->position.x) // go left if right-er
                 c1->moveCharacter({-1,0});
-            else
+            else // go right if left-er
                 c1->moveCharacter({1,0});
+        }
+        else // otherwise
+        {
+            if (c1->enemyDistance(c2->position).x <= c1->enemyDistance(c2->position).y) // if x distance <= y distance
+            {
+                if (c1->position.y > c2->position.y) // go left if right-er
+                    c1->moveCharacter({0,-1});
+                else // go right if lefter
+                    c1->moveCharacter({0,1});
+            }
+            else // if y distance > x distance
+            {
+                if (c1->position.x > c2->position.x) // go down if higher
+                    c1->moveCharacter({-1,0});
+                else // go up if lower
+                    c1->moveCharacter({1,0});
+            }
         }
     }
 }
