@@ -47,7 +47,7 @@ Coordinate Character::enemyDistance(Coordinate c)
 // attackEnemy(enemy) is a void object function, reduce enemy HP depending on the distance
 void Character::attackEnemy(Character* enemy)
 {
-    if ((enemyDistance(enemy->position).x+enemyDistance(enemy->position).y) <= 5)
+    if ((enemyDistance(enemy->position).x+enemyDistance(enemy->position).y) <= this->attackRange)
     {
         enemy->healthPoint -= attackDamage;
         cout << "Enemy received " << attackDamage << " damage!" << endl;
@@ -69,7 +69,7 @@ void Character::moveCharacter(Coordinate direction)
 // printStatus() is a void object function, print the object status
 void Character::printStatus()
 {
-    cout << "\nHP\t: " << healthPoint << endl;
+    cout << "HP\t: " << healthPoint << endl;
     cout << "Damage\t: " << attackDamage << endl;
     cout << "Range\t: " << attackRange << endl;
     cout << "Pos\t: (" << position.x << ',' << position.y << ')' << endl;
@@ -126,10 +126,9 @@ Coordinate randomNumber(int sizeX, int sizeY, Coordinate c)
 // BunshinMechaKurama AI
 void botAction(Character* c1, Character* c2)
 {
-    cout << c1->enemyDistance(c2->position).x << ' ' << c1->enemyDistance(c2->position).y << endl;
     if (c1->enemyDistance(c2->position).x + c1->enemyDistance(c2->position).y <= c1->attackRange) // Attack if in range
     {
-        c1->attackEnemy(c2);
+        c1 -> attackEnemy(c2);
         cout << "BunshinMechaKurama has dealt " << c1->attackDamage << " damage!" << endl;
     }
     else // otherwise move

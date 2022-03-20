@@ -17,7 +17,7 @@ int main()
 
     // object
     Character *Robot; Robot = new Character();
-    Character *BunshinMechaKurama; BunshinMechaKurama = new Character(10,10,3,randomNumber(sizeX, sizeY,Robot->position));
+    Character *BunshinMechaKurama; BunshinMechaKurama = new Character(10,10,100,randomNumber(sizeX, sizeY,Robot->position));
 
     // input variables/score counting
     char actionInput, movementInput;
@@ -80,9 +80,9 @@ int main()
             }
             else if (actionInput == 'S' || actionInput == 's') // check for robot/BMK status
             {
-                cout << "Robot:" << endl;
+                cout << "\nRobot:" << endl;
                 Robot->printStatus();
-                cout << "BunshinMechaKurama:" << endl;
+                cout << "\nBunshinMechaKurama:" << endl;
                 BunshinMechaKurama->printStatus();
                 cout << endl;
                 printDistance(Robot->position, BunshinMechaKurama->position);
